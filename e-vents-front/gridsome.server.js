@@ -21,20 +21,22 @@ module.exports = function(api) {
     const { data } = await axios.get("http://localhost:1337/events");
 
     const collection = actions.addCollection({
-      typeName: "Event"
+      typeName: "Event",
+      path: "/events/:id"
     });
 
     for (const event of data) {
       collection.addNode({
         id: event.id,
+        path: "/events/" + event.id,
         title: event.title,
         date: event.date,
         description: event.description,
         price: event.price,
-        // data: event.data,
         duration: event.duration,
         thumbnail: event.image.formats.thumbnail.url,
-        image: event.image.formats.medium.url
+        image: event.image.formats.medium.url,
+        category: event.categories[0].id
       });
     }
   });
